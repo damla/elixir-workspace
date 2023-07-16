@@ -15,5 +15,5 @@
 - [x] Conditions
 - [x] Naming Conventions
 - [x] Lists and Maps
-- [ ] Recursion
+- [x] Recursion
 - [ ] Mix
