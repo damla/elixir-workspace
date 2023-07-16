@@ -9,17 +9,27 @@ defmodule MyApp.Math do
   Returns string.
 
   ## Examples
-
       iex> MyApp.Math.sum(6, 1)
       sum: 7 is_fun: true
 
-      iex> MyApp.Math.sum(6, 1, "another description:")
+      iex> MyApp.Math.sum(6, 1, %{:description => "another description:"})
       another description: 7 is_fun: true
+
+      iex> MyApp.Math.sum(6, 1, %{:description => "test:", :is_anon => true})
+      test: 7 summed w/ anonymous function
   """
-  @spec sum(number(), number(), String.t()) :: String.t()
-  def sum(num1, num2, description \\ "sum:") do
-    fun = &MyApp.Math.sum/3
-    description <> " " <> Integer.to_string(do_sum(num1, num2)) <> " is_fun: " <> to_string(is_fun?(fun))
+  @spec sum(number(), number(), %{optional(:description) => String.t(), optional(:is_anon) => boolean()}) :: String.t()
+  def sum(num1, num2, opts \\ %{}) do
+    description = Map.get(opts, :description, "sum:")
+    is_anon = Map.get(opts, :is_anon, false)
+
+    if is_anon do
+      add = &+/2
+      description <> " " <> Integer.to_string(add.(num1, num2)) <> " summed w/ anonymous function"
+    else
+      fun = &MyApp.Math.sum/3
+      description <> " " <> Integer.to_string(do_sum(num1, num2)) <> " is_fun: " <> to_string(is_fun?(fun))
+    end
   end
 
   @doc """
@@ -30,15 +40,26 @@ defmodule MyApp.Math do
   ## Examples
 
       iex> MyApp.Math.subtract(6, 1)
-      subtract: 5 is_fun: true
+      subtract: 7 is_fun: true
 
-      iex> MyApp.Math.subtract(6, 1, "another description:")
+      iex> MyApp.Math.subtract(6, 1, %{:description => "another description:"})
       another description: 5 is_fun: true
+
+      iex> MyApp.Math.subtract(6, 1, %{:description => "test:", :is_anon => true})
+      test: 5 summed w/ anonymous function
   """
-  @spec subtract(number(), number(), String.t()) :: String.t()
-  def subtract(num1, num2, description \\ "subtract:") do
-    fun = &MyApp.Math.subtract/3
-    description <> " " <> Integer.to_string(do_subtract(num1, num2)) <> " is_fun: " <> to_string(is_fun?(fun))
+  @spec subtract(number(), number(), %{optional(:description) => String.t(), optional(:is_anon) => boolean()}) :: String.t()
+  def subtract(num1, num2, opts \\ %{}) do
+    description = Map.get(opts, :description, "sum:")
+    is_anon = Map.get(opts, :is_anon, false)
+
+    if is_anon do
+      remove = &-/2
+      description <> " " <> Integer.to_string(remove.(num1, num2)) <> " subtracted w/ anonymous function"
+    else
+      fun = &MyApp.Math.subtract/3
+      description <> " " <> Integer.to_string(do_subtract(num1, num2)) <> " is_fun: " <> to_string(is_fun?(fun))
+    end
   end
 
   @spec do_sum(number(), number()) :: number()
@@ -74,5 +95,5 @@ defmodule MyApp.Math do
   end
 end
 
-IO.puts(MyApp.Math.sum(6, 1, "sum:"))
-IO.puts(MyApp.Math.subtract(6, 1))
+IO.puts(MyApp.Math.sum(6, 1, %{:description => "test:", :is_anon => true}))
+IO.puts(MyApp.Math.subtract(6, 1, %{:description => "test:"}))
