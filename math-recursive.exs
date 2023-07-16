@@ -20,7 +20,7 @@ defmodule MyApp.Math.Recursive do
       ...
 
   """
-  @spec operate(number(), number() | nil, :sum | :subtract | :factorial, %{optional(:description) => String.t()}) :: String.t()
+  @spec operate(non_neg_integer(), non_neg_integer() | nil, :sum | :subtract | :factorial, %{optional(:description) => String.t()}) :: String.t()
   def operate(num1, num2, operation, opts \\ %{}) do
     description = Map.get(opts, :description, "Result:")
 
@@ -60,5 +60,24 @@ defmodule MyApp.Math.Recursive do
       num1 > 0 -> {:ok, num1 * factorial(num1 - 1)}
       num1 < 0 -> {:error, "Cannot take factorial of a negative number"}
     end
+  end
+
+  @doc """
+    Accumulates the sum of the list.
+
+  Returns list.
+
+  ## Examples
+      iex> MyApp.Math.Recursive.sum_list([1, 2, 3], 0)
+      6
+      ...
+  """
+  @spec sum_list(list(), non_neg_integer()) :: String.t()
+  def sum_list([head | tail], accumulator) do
+    sum_list(tail, head + accumulator)
+  end
+
+  def sum_list([], accumulator) do
+    accumulator
   end
 end
