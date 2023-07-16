@@ -14,5 +14,6 @@
 - [x] Functions and Modules
 - [x] Conditions
 - [x] Naming Conventions
+- [x] Lists and Maps
 - [ ] Recursion
 - [ ] Mix
