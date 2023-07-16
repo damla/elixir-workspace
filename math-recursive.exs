@@ -15,7 +15,7 @@ defmodule MyApp.Math.Recursive do
       iex> MyApp.Math.Recursive.operate(6, 1, :subtract, %{description: "Another description:"})
       Another description:  5
 
-      iex> MyApp.Math.Recursive.operate(3, 2, :factorial, %{description: "Another description:"})
+      iex> MyApp.Math.Recursive.operate(3, nil, :factorial)
       Another description:  6
       ...
 
@@ -27,33 +27,38 @@ defmodule MyApp.Math.Recursive do
     result = case operation do
       :sum -> Integer.to_string(sum(num1, num2))
       :subtract -> Integer.to_string(subtract(num1, num2))
-      :factorial -> Integer.to_string(factorial(num1))
+      :factorial ->
+        case factorial(num1) do
+        {:ok, val} -> Integer.to_string(val)
+        {:error, _reason} -> "Error calculating factorial"
+        end
     end
 
     description <> " " <> result
   end
 
-  defp sum(num1, num2) when num2 > 0 do
-    sum(num1 + 1, num2 - 1)
+  defp sum(num1, num2) do
+    cond do
+      num2 == 0 -> num1
+      num2 > 0 -> sum(num1 + 1, num2 - 1)
+      num2 < 0 -> sum(num1 - 1, num2 + 1)
+    end
   end
 
-  defp sum(num1, num2) when num2 == 0 do
-    num1
+
+  defp subtract(num1, num2) do
+    cond do
+      num2 == 0 -> num1
+      num2 > 0 -> subtract(num1 - 1, num2 - 1)
+      num2 < 0 -> subtract(num1 + 1, num2 + 1)
+    end
   end
 
-  defp subtract(num1, num2) when num2 > 0 do
-    subtract(num1 - 1, num2 - 1)
-  end
-
-  defp subtract(num1, num2) when num2 == 0 do
-    num1
-  end
-
-  defp factorial(num1) when num1 > 0 do
-    num1 * factorial(num1 - 1)
-  end
-
-  defp factorial(num1) when num1 == 0 do
-    1
+  defp factorial(num1) do
+    cond do
+      num1 == 0 -> {:ok, 1}
+      num1 > 0 -> {:ok, num1 * factorial(num1 - 1)}
+      num1 < 0 -> {:error, "Cannot take factorial of a negative number"}
+    end
   end
 end
