@@ -94,6 +94,3 @@ defmodule MyApp.Math do
     (&is_function/1).(fun)
   end
 end
-
-IO.puts(MyApp.Math.sum(6, 1, %{:description => "test:", :is_anon => true}))
-IO.puts(MyApp.Math.subtract(6, 1, %{:description => "test:"}))
