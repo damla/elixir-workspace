@@ -57,7 +57,7 @@ defmodule MyApp.Math.Enumerables do
     Enum.map(range1..range2, fn x -> x * 2 end)
   end
 
-  @spec double_enum_with_range(number(), number()) :: list()
+  @spec sum_enum_with_range(number(), number()) :: list()
   def sum_enum_with_range(range1, range2) do
     Enum.reduce(range1..range2, 0, &+/2)
   end
