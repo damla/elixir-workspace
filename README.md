@@ -16,4 +16,7 @@
 - [x] Naming Conventions
 - [x] Lists and Maps
 - [x] Recursion
+- [x] Ranges
+- [x] Pipe Operator
+- [ ] Processes
 - [ ] Mix
