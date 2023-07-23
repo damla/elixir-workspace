@@ -5,8 +5,10 @@ defmodule ExerciseApiWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", ExerciseApiWeb do
+  scope "/", ExerciseApiWeb do
     pipe_through :api
+
+    get "/exercises", ExerciseController, :index
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

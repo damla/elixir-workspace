@@ -57,6 +57,8 @@ defmodule ExerciseApiWeb do
     end
   end
 
+  # TODO: add view
+
   @doc """
   When used, dispatch to the appropriate controller/view/etc.
   """
